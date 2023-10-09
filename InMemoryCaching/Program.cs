@@ -13,18 +13,22 @@ namespace InMemoryCaching
 
 			// Add services to the container.
 
-			// DbContext
-			builder.Services.AddDbContext<DatabaseContext>(options =>
-			{
-				options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-			});
-
-			// Repositories
-			builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
-
 			builder.Services.AddControllers();
-			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-			builder.Services.AddEndpointsApiExplorer();
+
+            // DbContext
+            builder.Services.AddDbContext<DatabaseContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
+
+            // Repositories
+            builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
+
+			// Memory Cache
+			builder.Services.AddMemoryCache();
+
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
 
 			

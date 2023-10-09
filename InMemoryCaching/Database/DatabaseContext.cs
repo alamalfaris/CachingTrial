@@ -9,17 +9,17 @@ namespace InMemoryCaching.Database
 		{
 		}
 
-		public virtual DbSet<Employee> Employee { get; set; }
+        public virtual DbSet<Pokemons> Pokemons { get; set; }
 
-		protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			modelBuilder.Entity<Employee>(entity =>
-			{
-				entity.HasKey(e => e.Id)
-					.HasName("PK__employee__3213E83FCC17573B");
+            modelBuilder.Entity<Pokemons>(entity =>
+            {
+                entity.HasKey(e => e.Id)
+                    .HasName("PK_Pokemons");
 
-				entity.ToTable("employee");
-			});
-		}
+                entity.ToTable("Pokemons");
+            });
+        }
 	}
 }
