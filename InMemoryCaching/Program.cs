@@ -1,6 +1,7 @@
 using InMemoryCaching.Database;
 using InMemoryCaching.Interfaces;
 using InMemoryCaching.Repositories;
+using InMemoryCaching.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace InMemoryCaching
@@ -23,6 +24,7 @@ namespace InMemoryCaching
 
             // Repositories
             builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
+			builder.Services.AddScoped<IPokemonService, PokemonService>();
 
 			// Memory Cache
 			builder.Services.AddMemoryCache();

@@ -18,5 +18,11 @@ namespace InMemoryCaching.Repositories
         {
             return await _context.Pokemons.ToListAsync();
         }
+
+        public async Task CreatePokemons(Pokemons pokemons)
+        {
+            _context.Pokemons.Add(pokemons);
+            await _context.SaveChangesAsync();
+        }
     }
 }
