@@ -15,6 +15,45 @@ namespace InMemoryCaching.Services
             _pokemonRepository = pokemonRepository;
         }
 
+        public async Task<Pokemons> GetPokemon(int pokemonId, SemaphoreSlim semaphore)
+        {
+            bool isAvailable = _cache.TryGetValue(pokemonId, out Pokemons? pokemon);
+            if (isAvailable && pokemon is not null)
+            {
+                return pokemon;
+            }
+
+            try
+            {
+                await semaphore.WaitAsync();
+
+                isAvailable = _cache.TryGetValue(pokemonId, out pokemon);
+                if (isAvailable && pokemon is not null)
+                {
+                    return pokemon;
+                }
+
+                pokemon = await _pokemonRepository.GetPokemon(pokemonId);
+
+                var cacheEntryOptions = new MemoryCacheEntryOptions
+                {
+                    AbsoluteExpiration = DateTime.Now.AddMinutes(5),
+                    SlidingExpiration = TimeSpan.FromMinutes(2),
+                    Size = 1024
+                };
+                _cache.Set(pokemonId, pokemon, cacheEntryOptions);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                semaphore.Release();
+            }
+            return pokemon is not null ? pokemon : new Pokemons();
+        }
+
         public async Task<List<Pokemons>> GetCachedPokemons(string cacheKey, SemaphoreSlim semaphore)
         {
             bool isAvailable = _cache.TryGetValue(cacheKey, out List<Pokemons>? pokemons);

@@ -6,5 +6,7 @@ namespace InMemoryCaching.Interfaces
     {
 		Task<List<Pokemons>> GetCachedPokemons(string cacheKey, SemaphoreSlim semaphore);
 		Task CreatePokemons(Pokemons pokemons, string cacheKey);
-	}
+        Task<Pokemons> GetPokemon(int pokemonId, SemaphoreSlim semaphore);
+
+    }
 }

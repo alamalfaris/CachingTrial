@@ -17,8 +17,27 @@ namespace InMemoryCaching.Controllers
 			_pokemonService = pokemonService;
 		}
 
+        [HttpGet("{pokemonId}")]
+        public async Task<ActionResult> GetPokemons(int pokemonId)
+        {
+            try
+            {
+                var pokemons = await _pokemonService.GetPokemon(pokemonId, _semaphoreSlim);
+                return Ok(pokemons);
+            }
+            catch (Exception ex)
+            {
+                return new ContentResult()
+                {
+                    StatusCode = 500,
+                    Content = ex.Message,
+                    ContentType = "application/json"
+                };
+            }
+        }
+
         [HttpGet]
-        public async Task<ActionResult> GetPokemon()
+        public async Task<ActionResult> GetPokemons()
         {
             try
             {

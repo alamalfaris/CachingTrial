@@ -14,6 +14,11 @@ namespace InMemoryCaching.Repositories
             _context = context;
         }
 
+        public async Task<Pokemons> GetPokemon(int pokemonId)
+        {
+            return await _context.Pokemons.FirstAsync(m => m.Id == pokemonId);
+        }
+
         public async Task<List<Pokemons>> GetPokemons()
         {
             return await _context.Pokemons.ToListAsync();

@@ -6,6 +6,7 @@ namespace InMemoryCaching.Interfaces
     {
         Task<List<Pokemons>> GetPokemons();
         Task CreatePokemons(Pokemons pokemons);
+        Task<Pokemons> GetPokemon(int pokemonId);
 
-	}
+    }
 }
